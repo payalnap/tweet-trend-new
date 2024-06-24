@@ -13,5 +13,15 @@ environment {
                 sh 'mvn clean deploy'
             }
         }
+        stage('SonarQube analysis') {
+        environment {
+            scannerHome = tool 'payal-sonar-scanner'
+        }
+        steps{
+        withSonarQubeEnv('payal-sonarqube-server') {
+            sh "${scannerHome}/bin/sonar-scanner"
+        }
+        }
     }
+}
 }
