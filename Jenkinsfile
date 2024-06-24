@@ -5,9 +5,8 @@ pipeline {
         }
     }
 environment {
-        JAVA_HOME = tool 'JAVA' 
-        PATH = "${JAVA_HOME}/bin:/opt/apache-maven-3.9.8/bin:${env.PATH}"
-
+    PATH = "/opt/apache-maven-3.9.8/bin:$PATH"
+}
     stages {
         stage("build") {
             steps {
@@ -24,5 +23,5 @@ environment {
         }
         }
     }
-}
+    }
 }
