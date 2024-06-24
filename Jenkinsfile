@@ -5,6 +5,7 @@ pipeline {
         }
     }
 environment {
+    JAVA_HOME = tool 'jvm:'
     PATH = "/opt/apache-maven-3.9.8/bin:$PATH"
 }
     stages {
