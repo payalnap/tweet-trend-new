@@ -1,4 +1,6 @@
 def registry = 'https://payal10.jfrog.io/'
+def imageName = 'payal10.jfrog.io/payal-docker-local/ttrend'
+def version   = '2.1.2'
 pipeline {
     agent {
         node {
@@ -16,7 +18,7 @@ environment {
         }
 
         
-         stage("Jar Publish") {
+        stage("Jar Publish") {
         steps {
             script {
                     echo '<--------------- Jar Publish Started --------------->'
@@ -39,7 +41,29 @@ environment {
                      echo '<--------------- Jar Publish Ended --------------->'  
             
             }
-        }   
-    }   
+        } 
+          
+    } 
+    stage(" Docker Build ") {
+      steps {
+        script {
+           echo '<--------------- Docker Build Started --------------->'
+           app = docker.build(imageName+":"+version)
+           echo '<--------------- Docker Build Ends --------------->'
+        }
+      }
+    }
+
+    stage (" Docker Publish "){
+        steps {
+            script {
+               echo '<--------------- Docker Publish Started --------------->'  
+                docker.withRegistry(registry, 'artifact_cred'){
+                    app.push()
+                }    
+               echo '<--------------- Docker Publish Ended --------------->'  
+            }
+        }
+    }  
     }
 }
